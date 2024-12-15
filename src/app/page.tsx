@@ -99,7 +99,7 @@ export default function Home() {
   return (
     <div className="pt-10 px-10 h-screen bg-black">
       <div className="flex justify-center ">
-        <Image src="/icon.png" width={100} height={0} alt="Light Switch" />
+        <Image src="/icon.png" width={80} height={0} alt="Light Switch" />
       </div>
       <div className="text-center text-3xl font-bold pb-3">SwuidGame</div>
       <div className="flex justify-center pb-8">
@@ -118,21 +118,21 @@ export default function Home() {
         <div className="text-5xl">🌎</div>
       </div>
 
-      <div className="text-center p-5 text-3xl">↓</div>
+      <div className="text-center p-2 text-2xl">↓</div>
 
       <SelectableButtons
         choices={choices1}
         onSelect={(choice) => handleSelect(0, choice)}
       />
 
-      <div className="text-center p-5 text-3xl">↓</div>
+      <div className="text-center p-2 text-2xl">↓</div>
 
       <SelectableButtons
         choices={choices2}
         onSelect={(choice) => handleSelect(1, choice)}
       />
 
-      <div className="text-center p-5 text-3xl">↓</div>
+      <div className="text-center p-2 text-2xl">↓</div>
 
       <div className="flex justify-center gap-x-10">
         <div className="text-5xl">{emoji[0]}</div>
@@ -142,7 +142,7 @@ export default function Home() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center mt-10">
           <button
             type="submit"
             className="py-3 px-5 text-white text-2xl font-extrabold bg-green-600 rounded-xl hover:bg-green-500"
@@ -184,7 +184,7 @@ export default function Home() {
 
       {isTutorialOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center text-black">
-          <div className="bg-white px-10 py-5 rounded-xl shadow-lg w-auto max-w-2xl">
+          <div className="bg-white px-10 py-5 rounded-xl shadow-lg w-auto max-w-2xl mx-4">
             <div className="text-center text-3xl pb-4 font-extrabold">
               Way to Play
             </div>
