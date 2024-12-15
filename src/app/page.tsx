@@ -25,7 +25,6 @@ export default function Home() {
     null,
   ]);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isTutorialOpen, setIsTutorialOpen] = useState<boolean>(false);
@@ -49,16 +48,14 @@ export default function Home() {
 
   useEffect(() => {
     if (ans1 && ans2) {
-      // แปลง ans1 ให้เป็นลำดับที่ใช้สำหรับการเลือก emoji
       const ans1Indexes = ans1.split(" ").map(Number);
 
-      // จากนั้นใช้ ans2 มาเป็นลำดับเพื่อเลือก emoji ตามการสลับที่ต้องการ
       const newEmoji = ans2
         .split(" ")
-        .map(Number) // แปลง ans2 เป็นตัวเลข
-        .map((index) => emoji[ans1Indexes[index - 1] - 1]); // เลือก emoji ตามลำดับที่ได้จาก ans1
+        .map(Number)
+        .map((index) => emoji[ans1Indexes[index - 1] - 1]);
 
-      setEmoji(newEmoji); // อัพเดตค่า emoji
+      setEmoji(newEmoji);
     }
   }, [ans1, ans2]);
 
@@ -74,11 +71,8 @@ export default function Home() {
 
     if (selectedChoices.includes(null)) {
       setErrorMessage("Please select before submit");
-      setIsSubmitted(false);
     } else {
       setErrorMessage("");
-      setIsSubmitted(true);
-
       if (selectedChoices[0] === ans1 && selectedChoices[1] === ans2) {
         setIcon("✅");
         setResult("Good Job!");
@@ -90,7 +84,7 @@ export default function Home() {
     }
   };
 
-  const handleTutorial = (e: React.FormEvent) => {
+  const handleTutorial = () => {
     setIsTutorialOpen(true);
   };
 
