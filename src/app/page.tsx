@@ -101,7 +101,11 @@ export default function Home() {
       <div className="flex justify-center ">
         <Image src="/icon.png" width={80} height={0} alt="Light Switch" />
       </div>
-      <div className="text-center text-3xl font-bold pb-3">SwuidGame</div>
+      <div className="text-center text-3xl font-bold">SwuidGame</div>
+      <div className="text-center text-xs pb-5 text-white">
+        Created by ChillFloat
+      </div>
+
       <div className="flex justify-center pb-8">
         <button
           onClick={handleTutorial}
@@ -142,7 +146,7 @@ export default function Home() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-center mt-10">
+        <div className="flex justify-center mt-9">
           <button
             type="submit"
             className="py-3 px-5 text-white text-2xl font-extrabold bg-green-600 rounded-xl hover:bg-green-500"
@@ -152,7 +156,7 @@ export default function Home() {
         </div>
 
         {errorMessage && (
-          <div className="text-center mt-5 text-red-600 font-bold text-xl">
+          <div className="text-center mt-5 text-red-600 font-bold text-lg">
             {errorMessage}
           </div>
         )}
