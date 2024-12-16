@@ -314,10 +314,10 @@ export default function Home() {
               Way to Play
             </div>
 
-            <p className=" text-center">
-              Select the correct sequence from each row
+            <p className="pb-5 text-center">
+              Select the correct sequence from each row by clicking the
+              patterns.
             </p>
-            <p className="pb-5 text-center">by clicking the patterns.</p>
 
             <div className="flex justify-center gap-x-5 text-3xl">
               <div>🚨</div>
