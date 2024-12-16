@@ -14,6 +14,7 @@ const shuffleArray = (): string => {
 };
 
 export default function Home() {
+  const gameDuration = 60; // 60 seconds
   const [choices1, setChoices1] = useState<string[]>([]);
   const [choices2, setChoices2] = useState<string[]>([]);
 
@@ -28,9 +29,15 @@ export default function Home() {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isTutorialOpen, setIsTutorialOpen] = useState<boolean>(false);
+  const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
   const [icon, setIcon] = useState<string>("");
   const [result, setResult] = useState<string>("");
   const [emoji, setEmoji] = useState<string[]>(["🚨", "🥬", "🩳", "🌎"]);
+
+  const [score, setScore] = useState<number>(0);
+  const [incorrect, setIncorrect] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState<number>(60);
+  const [isEndChallenge, setIsEndChallenge] = useState<boolean>(false);
 
   useEffect(() => {
     const newChoices1 = [shuffleArray(), shuffleArray(), shuffleArray()];
@@ -59,11 +66,52 @@ export default function Home() {
     }
   }, [ans1, ans2]);
 
+  useEffect(() => {
+    if (isGameStarted && timeLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0) {
+      setIsEndChallenge(true);
+      setIsGameStarted(false);
+      setIsModalOpen(true);
+      setIcon("⏰");
+      setResult(`Time's up! Your score: ${score}`);
+    }
+  }, [isGameStarted, timeLeft]);
+
+  const handleStart = () => {
+    setIsGameStarted(true);
+    setTimeLeft(gameDuration);
+    setScore(0);
+    setIncorrect(0);
+    setIsModalOpen(false);
+    const newChoices1 = [shuffleArray(), shuffleArray(), shuffleArray()];
+    const newChoices2 = [shuffleArray(), shuffleArray(), shuffleArray()];
+    setChoices1(newChoices1);
+    setChoices2(newChoices2);
+    setAns1(newChoices1[Math.floor(Math.random() * 3)]);
+    setAns2(newChoices2[Math.floor(Math.random() * 3)]);
+    setSelectedChoices([null, null]);
+    setErrorMessage("");
+  };
+
+  const handleStop = () => {
+    setIsGameStarted(false);
+
+    const newChoices1 = [shuffleArray(), shuffleArray(), shuffleArray()];
+    const newChoices2 = [shuffleArray(), shuffleArray(), shuffleArray()];
+    setChoices1(newChoices1);
+    setChoices2(newChoices2);
+    setAns1(newChoices1[Math.floor(Math.random() * 3)]);
+    setAns2(newChoices2[Math.floor(Math.random() * 3)]);
+    setSelectedChoices([null, null]);
+    setErrorMessage("");
+  };
+
   const handleSelect = (rowIndex: number, choice: string) => {
     const updatedChoices = [...selectedChoices];
     updatedChoices[rowIndex] = choice;
     setSelectedChoices(updatedChoices);
-    setErrorMessage("");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -76,11 +124,20 @@ export default function Home() {
       if (selectedChoices[0] === ans1 && selectedChoices[1] === ans2) {
         setIcon("✅");
         setResult("Good Job!");
+        setScore(score + 1);
       } else {
         setIcon("❌");
         setResult("Try again");
+        setIncorrect(incorrect + 1);
       }
-      setIsModalOpen(true);
+
+      setSelectedChoices([null, null]); // Reset selections
+      if (!isGameStarted) {
+        setIsModalOpen(true);
+        setIsEndChallenge(false);
+      } else {
+        handleNext();
+      }
     }
   };
 
@@ -89,7 +146,17 @@ export default function Home() {
   };
 
   const handleNext = () => {
-    window.location.reload();
+    const newChoices1 = [shuffleArray(), shuffleArray(), shuffleArray()];
+    const newChoices2 = [shuffleArray(), shuffleArray(), shuffleArray()];
+    setChoices1(newChoices1);
+    setChoices2(newChoices2);
+
+    setAns1(newChoices1[Math.floor(Math.random() * 3)]);
+    setAns2(newChoices2[Math.floor(Math.random() * 3)]);
+
+    setSelectedChoices([null, null]); // Reset selections
+    setErrorMessage("");
+    setIsModalOpen(false);
   };
 
   const handleGotIt = () => {
@@ -102,18 +169,49 @@ export default function Home() {
         <Image src="/icon.png" width={80} height={0} alt="Light Switch" />
       </div>
       <div className="text-center text-3xl font-bold">SwuidGame</div>
-      <div className="text-center text-xs pb-5 text-white">
+      <div className="text-center text-xs pb-4 text-white">
         Created by ChillFloat
       </div>
 
-      <div className="flex justify-center pb-8">
-        <button
-          onClick={handleTutorial}
-          className="text-white underline text-lg"
-        >
-          How to play?
-        </button>
-      </div>
+      {!isGameStarted && (
+        <>
+          <div className="flex justify-center">
+            <button
+              onClick={handleStart}
+              className="mb-3 w-56 pt-1.5 pb-2 text-white text-xl font-extrabold bg-blue-600 rounded-xl hover:bg-blue-500"
+            >
+              Start 60s Challenge
+            </button>
+          </div>
+
+          <div className="flex justify-center pb-8">
+            <button
+              onClick={handleTutorial}
+              className="text-white underline text-lg"
+            >
+              How to play?
+            </button>
+          </div>
+        </>
+      )}
+
+      {isGameStarted && (
+        <>
+          <div className="flex justify-center ">
+            <button
+              className="mb-3 w-56 pt-1.5 pb-2 text-white text-xl font-extrabold bg-red-600 rounded-xl"
+              onClick={handleStop}
+            >
+              {timeLeft} second left
+            </button>
+          </div>
+
+          <div className="flex justify-center pb-8 gap-x-6">
+            <div>✅ : {score}</div>
+            <div>❌ : {incorrect}</div>
+          </div>
+        </>
+      )}
 
       <div className="flex justify-center gap-x-10">
         <div className="text-5xl">🚨</div>
@@ -127,6 +225,7 @@ export default function Home() {
       <SelectableButtons
         choices={choices1}
         onSelect={(choice) => handleSelect(0, choice)}
+        selectedIndex={choices1.indexOf(selectedChoices[0] || "")}
       />
 
       <div className="text-center p-2 text-2xl">↓</div>
@@ -134,6 +233,7 @@ export default function Home() {
       <SelectableButtons
         choices={choices2}
         onSelect={(choice) => handleSelect(1, choice)}
+        selectedIndex={choices2.indexOf(selectedChoices[1] || "")}
       />
 
       <div className="text-center p-2 text-2xl">↓</div>
@@ -166,14 +266,35 @@ export default function Home() {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center text-black">
           <div className="bg-white p-10 pb-5 rounded-xl shadow-lg w-auto">
             <div className="text-center text-5xl pb-4">{icon}</div>
-            <div className="text-center text-2xl font-extrabold mb-5">
-              {result}
-            </div>
-            <div className="text-center mb-5">
-              <div className="underline pb-3">Answer</div>
-              <div>First Row: {ans1}</div>
-              <div>Second Row: {ans2}</div>
-            </div>
+
+            {!isEndChallenge && (
+              <>
+                <div className="text-center text-2xl font-extrabold mb-5">
+                  {result}
+                </div>
+                <div className="text-center mb-5">
+                  <div className="underline pb-3">Answer</div>
+                  <div>First Row: {ans1}</div>
+                  <div>Second Row: {ans2}</div>
+                </div>
+              </>
+            )}
+
+            {isEndChallenge && (
+              <>
+                <div className="text-center text-2xl font-extrabold">
+                  Time's Up
+                </div>
+                <div className="text-center mb-10 text-xl">
+                  SwuidGame 60s Challenge
+                </div>
+
+                <div className="flex justify-center gap-x-4 mb-10 text-3xl font-extrabold">
+                  <div>✅ {score}</div>
+                  <div>❌ {incorrect}</div>
+                </div>
+              </>
+            )}
             <div className="text-center">
               <button
                 onClick={handleNext}
