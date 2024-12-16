@@ -314,13 +314,66 @@ export default function Home() {
               Way to Play
             </div>
 
-            <div className="text-center mb-5">
-              Look at the two rows of shuffled numbers. Select one sequence from
-              each row by clicking the patterns. Arrange the emojis according to
-              the first row, then check the result using the second row. Press
-              Submit to see if your answers are correct.
+            <p className=" text-center">
+              Select the correct sequence from each row
+            </p>
+            <p className="pb-5 text-center">by clicking the patterns.</p>
+
+            <div className="flex justify-center gap-x-5 text-3xl">
+              <div>🚨</div>
+              <div>🥬</div>
+              <div>🩳</div>
+              <div>🌎</div>
             </div>
-            <div className="text-center">
+
+            <div className="text-center text-xl">↓</div>
+
+            <div className="flex justify-center mt-1">
+              <div className="bg-black py-2 px-4 rounded-xl">
+                <div className="flex justify-center gap-x-3 text-xl font-bold text-white">
+                  <div>3</div>
+                  <div>2</div>
+                  <div>1</div>
+                  <div>4</div>
+                </div>
+                <div className="flex justify-center gap-x-1">
+                  <div>🩳</div>
+                  <div>🥬</div>
+                  <div>🚨</div>
+                  <div>🌎</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center text-xl">↓</div>
+
+            <div className="flex justify-center mt-1">
+              <div className="bg-black py-2 px-4 rounded-xl">
+                <div className="flex justify-center gap-x-3 text-xl font-bold text-white">
+                  <div>4</div>
+                  <div>3</div>
+                  <div>2</div>
+                  <div>1</div>
+                </div>
+                <div className="flex justify-center gap-x-1">
+                  <div>🌎</div>
+                  <div>🚨</div>
+                  <div>🥬</div>
+                  <div>🩳</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center text-xl">↓</div>
+
+            <div className="flex justify-center gap-x-5 text-3xl">
+              <div>🌎</div>
+              <div>🚨</div>
+              <div>🥬</div>
+              <div>🩳</div>
+            </div>
+
+            <div className="text-center mt-5">
               <button
                 onClick={handleGotIt}
                 className="py-2 px-5 bg-black text-white rounded-xl"
