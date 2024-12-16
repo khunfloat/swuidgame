@@ -11,7 +11,7 @@ SwuidGame (switch-game) is a fun and interactive web-based game built with Next.
 - Arrange the emojis according to the first row, then check the result using the second row.
 - Press Submit to see if your answers are correct.
 
-![screenshot](screenshot.png)
+<img src="screenshot.png" alt="Screenshot" width="390"/>
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
