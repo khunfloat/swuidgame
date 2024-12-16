@@ -283,7 +283,7 @@ export default function Home() {
             {isEndChallenge && (
               <>
                 <div className="text-center text-2xl font-extrabold">
-                  Time's Up
+                  {"Time's Up"}
                 </div>
                 <div className="text-center mb-10 text-xl">
                   SwuidGame 60s Challenge
